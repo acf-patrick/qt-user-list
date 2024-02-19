@@ -1,7 +1,6 @@
 #ifndef USERSERVICE_H
 #define USERSERVICE_H
 
-#include <optional>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 
@@ -58,13 +57,7 @@ class UserService: public QObject {
 public:
     UserService();
 
-    int userCount() const;
-
-    std::optional<User> getUser(int id) const;
-
-    std::optional<UserAddress> getUserAddress(int userId) const;
-
-    std::optional<UserCompany> getUserCompany(int userId) const;
+    QList<User> getUsers() const;
 
 signals:
     void listLoaded(bool success);

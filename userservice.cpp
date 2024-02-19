@@ -20,12 +20,12 @@ void UserService::onRequestReply(QNetworkReply* res) {
 
         if (parseResult.error == QJsonParseError::NoError) {
             auto jsonArray = jsonDoc.array();
-            auto userId = 0;
 
-            for (auto jsonUser : jsonArray) {
+            for (auto item : jsonArray) {
+                auto jsonUser = item.toObject();
                 User user;
 
-                user.id = ++userId;
+                user.id = jsonUser[tr("id")].toInt();
                 user.email = jsonUser[tr("email")].toString();
                 user.name = jsonUser[tr("name")].toString();
                 user.username = jsonUser[tr("username")].toString();
@@ -58,32 +58,6 @@ void UserService::onRequestReply(QNetworkReply* res) {
     }
 }
 
-int UserService::userCount() const {
-    return users.size();
-}
-
-std::optional<User> UserService::getUser(int id) const {
-    if (id < 0 || id >= users.size()) {
-        return std::optional<User>();
-    }
-
-    return std::make_optional(users[id]);
-}
-
-std::optional<UserAddress> UserService::getUserAddress(int userId) const {
-    if (userId < 0 || userId >= users.size()) {
-        return std::optional<UserAddress>();
-    }
-
-    auto& user = users[userId];
-    return std::make_optional(user.address);
-}
-
-std::optional<UserCompany> UserService::getUserCompany(int userId) const {
-    if (userId < 0 || userId >= users.size()) {
-        return std::optional<UserCompany>();
-    }
-
-    auto& user = users[userId];
-    return std::make_optional(user.company);
+QList<User> UserService::getUsers() const {
+    return users;
 }

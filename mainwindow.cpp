@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    users$.subscribeOnce([this](QList<User> users) { updateTableUI(); });
     QObject::connect(&userService, &UserService::listLoaded, this, &MainWindow::onUserLoad);
 }
 
@@ -14,12 +15,13 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::onUserLoad(bool success) {
-    if (!success) {
+void MainWindow::updateTableUI() {
+    auto users = users$.getValue();
+    if (users.empty()) {
         return;
     }
 
-    auto rows = userService.userCount();
+    auto rows = users.size();
     if (rows == 0) {
         return;
     }
@@ -28,7 +30,7 @@ void MainWindow::onUserLoad(bool success) {
     table->setRowCount(rows);
 
     for (int i = 0; i < rows; ++i) {
-        auto user = userService.getUser(i).value();
+        auto& user = users[i];
 
         auto item = new QTableWidgetItem(QString::number(i));
         table->setItem(i, 0, item);
@@ -53,7 +55,7 @@ void MainWindow::onUserLoad(bool success) {
     table->setRowCount(rows);
 
     for (int i = 0; i < rows; ++i) {
-        auto address = userService.getUserAddress(i).value();
+        auto& address = users[i].address;
 
         auto item = new QTableWidgetItem(QString::number(i));
         table->setItem(i, 0, item);
@@ -74,8 +76,8 @@ void MainWindow::onUserLoad(bool success) {
     table = ui->user_company_table;
     table->setRowCount(rows);
 
-    for (int i  = 0; i < rows; ++i) {
-        auto company = userService.getUserCompany(i).value();
+    for (int i = 0; i < rows; ++i) {
+        auto& company = users[i].company;
 
         auto item = new QTableWidgetItem(QString::number(i));
         table->setItem(i, 0, item);
@@ -88,5 +90,11 @@ void MainWindow::onUserLoad(bool success) {
 
         item = new QTableWidgetItem(company.bs);
         table->setItem(i, UserCompany::BS, item);
+    }
+}
+
+void MainWindow::onUserLoad(bool success) {
+    if (success) {
+        users$.next(userService.getUsers());
     }
 }

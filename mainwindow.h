@@ -1,7 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "observable.h"
 #include "userservice.h"
+
+#include <QList>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -22,7 +25,12 @@ private slots:
     void onUserLoad(bool success);
 
 private:
+    void updateTableUI();
+
+private:
     UserService userService;
+
+    Observable<QList<User>> users$;
 
     Ui::MainWindow *ui;
 };
