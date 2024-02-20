@@ -27,6 +27,8 @@ private slots:
 private:
     void updateTableUI();
 
+    void toggleTables(bool show);
+
 private:
     UserService userService;
 

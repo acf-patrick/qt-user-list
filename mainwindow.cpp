@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QLabel>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    
+    toggleTables(false);
 
     users$.subscribeOnce([this](QList<User> users) { updateTableUI(); });
     QObject::connect(&userService, &UserService::listLoaded, this, &MainWindow::onUserLoad);
@@ -15,7 +19,27 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::toggleTables(bool show) {
+    QGroupBox* groups[] = {
+        ui->address,
+        ui->company,
+        ui->user
+    };
+
+    for (int i = 0; i < 3; ++i) {
+        auto group = groups[i];
+        if (show) {
+            group->show();
+        } else {
+            group->hide();
+        }
+    }
+}
+
 void MainWindow::updateTableUI() {
+    toggleTables(true);
+    delete ui->loading_label;
+
     auto users = users$.getValue();
     if (users.empty()) {
         return;
@@ -25,7 +49,7 @@ void MainWindow::updateTableUI() {
     if (rows == 0) {
         return;
     }
-
+    
     auto table = ui->user_table;
     table->setRowCount(rows);
 

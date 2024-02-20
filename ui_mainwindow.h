@@ -18,6 +18,7 @@
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "loadinglabel.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -26,33 +27,38 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
-    QGroupBox *groupBox;
+    QGroupBox *user;
     QGridLayout *gridLayout;
     QTableWidget *user_table;
-    QGroupBox *groupBox_2;
+    QGroupBox *address;
     QGridLayout *gridLayout_2;
     QTableWidget *user_address_table;
-    QGroupBox *groupBox_3;
+    QGroupBox *company;
     QGridLayout *gridLayout_3;
     QTableWidget *user_company_table;
+    LoadingLabel *loading_label;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(800, 600);
+        MainWindow->resize(735, 693);
+        QFont font;
+        font.setFamily(QString::fromUtf8("Ubuntu"));
+        MainWindow->setFont(font);
         MainWindow->setStyleSheet(QString::fromUtf8("QHeaderView::section {\n"
 "	background: rgb(125, 125, 125);\n"
+"	color: white;\n"
 "}"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout = new QVBoxLayout(centralwidget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        groupBox = new QGroupBox(centralwidget);
-        groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        gridLayout = new QGridLayout(groupBox);
+        user = new QGroupBox(centralwidget);
+        user->setObjectName(QString::fromUtf8("user"));
+        gridLayout = new QGridLayout(user);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        user_table = new QTableWidget(groupBox);
+        user_table = new QTableWidget(user);
         if (user_table->columnCount() < 6)
             user_table->setColumnCount(6);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
@@ -68,20 +74,24 @@ public:
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
         user_table->setHorizontalHeaderItem(5, __qtablewidgetitem5);
         user_table->setObjectName(QString::fromUtf8("user_table"));
+        user_table->setEnabled(true);
         user_table->setSelectionBehavior(QAbstractItemView::SelectRows);
+        user_table->setSortingEnabled(true);
         user_table->horizontalHeader()->setVisible(true);
+        user_table->horizontalHeader()->setStretchLastSection(true);
         user_table->verticalHeader()->setVisible(false);
+        user_table->verticalHeader()->setStretchLastSection(false);
 
         gridLayout->addWidget(user_table, 0, 0, 1, 1);
 
 
-        verticalLayout->addWidget(groupBox);
+        verticalLayout->addWidget(user);
 
-        groupBox_2 = new QGroupBox(centralwidget);
-        groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
-        gridLayout_2 = new QGridLayout(groupBox_2);
+        address = new QGroupBox(centralwidget);
+        address->setObjectName(QString::fromUtf8("address"));
+        gridLayout_2 = new QGridLayout(address);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        user_address_table = new QTableWidget(groupBox_2);
+        user_address_table = new QTableWidget(address);
         if (user_address_table->columnCount() < 5)
             user_address_table->setColumnCount(5);
         QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
@@ -95,19 +105,23 @@ public:
         QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
         user_address_table->setHorizontalHeaderItem(4, __qtablewidgetitem10);
         user_address_table->setObjectName(QString::fromUtf8("user_address_table"));
+        user_address_table->setFont(font);
         user_address_table->setSelectionBehavior(QAbstractItemView::SelectRows);
+        user_address_table->setSortingEnabled(true);
+        user_address_table->horizontalHeader()->setStretchLastSection(true);
         user_address_table->verticalHeader()->setVisible(false);
+        user_address_table->verticalHeader()->setStretchLastSection(false);
 
         gridLayout_2->addWidget(user_address_table, 0, 0, 1, 1);
 
 
-        verticalLayout->addWidget(groupBox_2);
+        verticalLayout->addWidget(address);
 
-        groupBox_3 = new QGroupBox(centralwidget);
-        groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
-        gridLayout_3 = new QGridLayout(groupBox_3);
+        company = new QGroupBox(centralwidget);
+        company->setObjectName(QString::fromUtf8("company"));
+        gridLayout_3 = new QGridLayout(company);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
-        user_company_table = new QTableWidget(groupBox_3);
+        user_company_table = new QTableWidget(company);
         if (user_company_table->columnCount() < 4)
             user_company_table->setColumnCount(4);
         QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
@@ -122,13 +136,24 @@ public:
         user_company_table->setSelectionBehavior(QAbstractItemView::SelectRows);
         user_company_table->setSortingEnabled(true);
         user_company_table->horizontalHeader()->setProperty("showSortIndicator", QVariant(true));
+        user_company_table->horizontalHeader()->setStretchLastSection(true);
         user_company_table->verticalHeader()->setVisible(false);
         user_company_table->verticalHeader()->setProperty("showSortIndicator", QVariant(true));
+        user_company_table->verticalHeader()->setStretchLastSection(false);
 
         gridLayout_3->addWidget(user_company_table, 0, 0, 1, 1);
 
 
-        verticalLayout->addWidget(groupBox_3);
+        verticalLayout->addWidget(company);
+
+        loading_label = new LoadingLabel(centralwidget);
+        loading_label->setObjectName(QString::fromUtf8("loading_label"));
+        QFont font1;
+        font1.setPointSize(24);
+        loading_label->setFont(font1);
+        loading_label->setAlignment(Qt::AlignCenter);
+
+        verticalLayout->addWidget(loading_label);
 
         MainWindow->setCentralWidget(centralwidget);
 
@@ -140,7 +165,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("MainWindow", "User", nullptr));
+        user->setTitle(QCoreApplication::translate("MainWindow", "User", nullptr));
         QTableWidgetItem *___qtablewidgetitem = user_table->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = user_table->horizontalHeaderItem(1);
@@ -153,7 +178,7 @@ public:
         ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "Phone", nullptr));
         QTableWidgetItem *___qtablewidgetitem5 = user_table->horizontalHeaderItem(5);
         ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Website", nullptr));
-        groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "Address", nullptr));
+        address->setTitle(QCoreApplication::translate("MainWindow", "Address", nullptr));
         QTableWidgetItem *___qtablewidgetitem6 = user_address_table->horizontalHeaderItem(0);
         ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "User ID", nullptr));
         QTableWidgetItem *___qtablewidgetitem7 = user_address_table->horizontalHeaderItem(1);
@@ -164,7 +189,7 @@ public:
         ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "City", nullptr));
         QTableWidgetItem *___qtablewidgetitem10 = user_address_table->horizontalHeaderItem(4);
         ___qtablewidgetitem10->setText(QCoreApplication::translate("MainWindow", "Zipcode", nullptr));
-        groupBox_3->setTitle(QCoreApplication::translate("MainWindow", "Company", nullptr));
+        company->setTitle(QCoreApplication::translate("MainWindow", "Company", nullptr));
         QTableWidgetItem *___qtablewidgetitem11 = user_company_table->horizontalHeaderItem(0);
         ___qtablewidgetitem11->setText(QCoreApplication::translate("MainWindow", "User ID", nullptr));
         QTableWidgetItem *___qtablewidgetitem12 = user_company_table->horizontalHeaderItem(1);
@@ -173,6 +198,7 @@ public:
         ___qtablewidgetitem13->setText(QCoreApplication::translate("MainWindow", "Catch phrase", nullptr));
         QTableWidgetItem *___qtablewidgetitem14 = user_company_table->horizontalHeaderItem(3);
         ___qtablewidgetitem14->setText(QCoreApplication::translate("MainWindow", "BS", nullptr));
+        loading_label->setText(QCoreApplication::translate("MainWindow", "Loading.", nullptr));
     } // retranslateUi
 
 };

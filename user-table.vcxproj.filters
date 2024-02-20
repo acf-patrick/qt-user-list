@@ -46,12 +46,18 @@
     <ClCompile Include="userservice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="loadinglabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="userservice.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="loadinglabel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
